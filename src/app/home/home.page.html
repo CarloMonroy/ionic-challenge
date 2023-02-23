@@ -1,20 +1,46 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Todo List</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-item>
+    <ion-input
+      id="new_task"
+      placeholder="Add New Task"
+      [(ngModel)]="task"
+    ></ion-input>
+    <ion-button (click)="addTask(task)" formtarget="_blank" style="left: 0"
+      >Add</ion-button
+    >
+  </ion-item>
+  <ion-list>
+    <ion-item *ngFor="let item of items; let i = index">
+      <span *ngIf="!hideComponent; else elseBlock" style="width: 160px"
+        >{{item.task}}</span
+      >
+      <ng-template #elseBlock>
+        <ion-input
+          id="edit_task"
+          placeholder="{{item.task}}"
+          [(ngModel)]="task2"
+          *ngIf="clickedIndex === i"
+          style="width: 200px"
+        ></ion-input>
+        <ion-button
+          (click)="editTask(item.id, task2)"
+          *ngIf="clickedIndex === i"
+          >Save</ion-button
+        >
+      </ng-template>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+      <ion-button (click)="clickedButton(i)" *ngIf="!hideComponent"
+        >Edit Task</ion-button
+      >
+      <ion-button (click)="deleteTask(item.id)" *ngIf="!hideComponent"
+        >Delete Task</ion-button
+      >
+    </ion-item>
+  </ion-list>
 </ion-content>
